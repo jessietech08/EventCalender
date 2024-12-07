@@ -7,5 +7,4 @@ Event calender allows user to select a date, create an event and save it on the 
 * Calender display 
 * Event list display
 * Add events
-* Edit events
 * Delete events
