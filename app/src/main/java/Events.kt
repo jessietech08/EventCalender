@@ -1,7 +1,5 @@
 package com.example.eventcalender
 
-import android.widget.EditText
-
 class Events {
     var id: Int = 0
     var eventTitle: String? = null

@@ -41,46 +41,28 @@ class MyDbHandler(context: Context, name: String?,
         db.close()
     }
 
-    fun findEvent(eventDate: String): Events? {
-        val query =
-            "SELECT * FROM $TABLE_EVENTS WHERE $COLUMN_EVENTDATE = \"$eventDate\""
+    fun findEvent(eventDate: String): List<Events> {
+        val query = "SELECT * FROM $TABLE_EVENTS WHERE $COLUMN_EVENTDATE = ?"
         val db = this.writableDatabase
-        val cursor = db.rawQuery(query, null)
-        var event: Events? = null
+        val cursor = db.rawQuery(query, arrayOf(eventDate))
+        val events = mutableListOf<Events>()
+
         if (cursor.moveToFirst()) {
-            cursor.moveToFirst()
-            val id = Integer.parseInt(cursor.getString(0))
-            val eventTitle = cursor.getString(1)
-            val eventDate = cursor.getString(2)
-            event = Events(id, eventTitle, eventDate)
-            cursor.close()
+            while (!cursor.isAfterLast) {
+                val id = cursor.getInt(0)
+                val eventTitle = cursor.getString(1)
+                val eventDateStored = cursor.getString(2)
+                events.add(Events(id, eventTitle, eventDateStored))
+                cursor.moveToNext() // Move to the next row
+            }
         }
+        cursor.close()
         db.close()
-        return event
+        return events
     }
 
-    fun deleteEvent(eventDate: String): Boolean {
-        var result = false
-        val query =
-            "SELECT * FROM $TABLE_EVENTS WHERE $COLUMN_EVENTDATE = \"$eventDate\""
+    fun deleteEvent(id: Int): Boolean {
         val db = this.writableDatabase
-        val cursor = db.rawQuery(query, null)
-        if (cursor.moveToFirst()) {
-            val id = Integer.parseInt(cursor.getString(0))
-            db.delete(
-                TABLE_EVENTS, COLUMN_ID + " = ?",
-                arrayOf(id.toString()))
-            cursor.close()
-            result = true
-        }
-        db.close()
-        return result
+        return db.delete(TABLE_EVENTS, "$COLUMN_ID = ?", arrayOf(id.toString())) > 0
     }
-
-//    fun editEvent(eventDate: String): Events? {
-//        val query =
-//            "SELECT * FROM $TABLE_EVENTS WHERE $COLUMN_EVENTDATE = \"$eventDate\""
-//        val db = this.writableDatabase
-//        val cursor = db.rawQuery(query, null)
-//    }
 }
