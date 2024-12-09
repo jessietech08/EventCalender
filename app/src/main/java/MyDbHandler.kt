@@ -4,8 +4,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.content.Context
 import android.content.ContentValues
-import androidx.annotation.IntegerRes
 
+// Nov12 Zoom
 class MyDbHandler(context: Context, name: String?,
                   factory: SQLiteDatabase.CursorFactory?, version: Int) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
@@ -47,13 +47,14 @@ class MyDbHandler(context: Context, name: String?,
         val cursor = db.rawQuery(query, arrayOf(eventDate))
         val events = mutableListOf<Events>()
 
+        // Nov19 Zoom
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast) {
                 val id = cursor.getInt(0)
                 val eventTitle = cursor.getString(1)
                 val eventDateStored = cursor.getString(2)
                 events.add(Events(id, eventTitle, eventDateStored))
-                cursor.moveToNext() // Move to the next row
+                cursor.moveToNext()
             }
         }
         cursor.close()

@@ -1,5 +1,6 @@
 package com.example.eventcalender
 
+// Nov12 zoom
 class Events {
     var id: Int = 0
     var eventTitle: String? = null
