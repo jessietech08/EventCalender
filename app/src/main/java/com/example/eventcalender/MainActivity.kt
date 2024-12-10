@@ -14,11 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var calendarView: CalendarView
     private lateinit var eventDbHelper: MyDbHandler
-    private lateinit var eventTitle: EditText
-    private lateinit var addButton: Button
-    private lateinit var recyclerView: RecyclerView
     private lateinit var eventAdapter: EventAdapter
     private var selectedDate: String? = null
     private var eventsList: MutableList<Events> = mutableListOf()
@@ -36,10 +32,10 @@ class MainActivity : AppCompatActivity() {
         eventDbHelper = MyDbHandler(this, null, null, 1)
 
         // Initialize views & buttons
-        calendarView = findViewById(R.id.calendarView);
-        eventTitle = findViewById(R.id.eventTitle)
-        addButton = findViewById(R.id.addButton)
-        recyclerView = findViewById(R.id.recyclerView)
+        val calendarView: CalendarView = findViewById(R.id.calendarView);
+        val eventTitle: EditText = findViewById(R.id.eventTitle)
+        val addButton: Button = findViewById(R.id.addButton)
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
         // Set up eventAdapter and recyclerView
         // https://developer.android.com/develop/ui/views/layout/recyclerview
